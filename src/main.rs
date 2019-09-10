@@ -14,8 +14,7 @@ fn ws_index(r: HttpRequest, stream: web::Payload) -> Result<HttpResponse, Error>
 
 /// websocket connection is long running connection, it easier
 /// to handle with an actor
-struct MyWebSocket {
-}
+struct MyWebSocket {}
 
 impl Actor for MyWebSocket {
     type Context = ws::WebsocketContext<Self>;
@@ -29,26 +28,31 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for MyWebSocket {
             ws::Message::Ping(msg) => {
                 ctx.pong(msg);
             }
-            ws::Message::Pong(msg) => {
-            }
-            ws::Message::Text(text) => {
-                ctx.text(text)
-            }
-            ws::Message::Binary(bin) => {
-                ctx.binary(bin)
-            }
-            ws::Message::Close(_msg) => {
+            ws::Message::Pong(_msg) => {}
+            ws::Message::Text(text) => ctx.text(text),
+            ws::Message::Binary(bin) => ctx.binary(bin),
+            ws::Message::Close(Some(reason)) => {
+                if let ws::CloseCode::Other(_) = reason.code {
+                } else if reason.code == ws::CloseCode::Abnormal
+                    || reason.code == ws::CloseCode::Tls
+                {
+                } else {
+                    ctx.close(Some(reason));
+                }
                 ctx.stop();
             }
-            ws::Message::Nop => {
+            ws::Message::Close(None) => {
+                ctx.close(None);
+                ctx.stop();
             }
+            ws::Message::Nop => {}
         }
     }
 }
 
 impl MyWebSocket {
     fn new() -> Self {
-        Self { }
+        Self {}
     }
 }
 
