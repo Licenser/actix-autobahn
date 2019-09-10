@@ -1,0 +1,12 @@
+{
+    "outdir": "./reports/clients",
+	"servers": [
+		{
+			"agent": "actix-websocket",
+			"url": "ws://192.168.1.204:9001"
+		}
+	],
+    "cases": ["*"],
+	"exclude-cases": [],
+	"exclude-agent-cases": {}
+}
