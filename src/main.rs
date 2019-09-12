@@ -26,7 +26,7 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for MyWebSocket {
         // process websocket messages
         match msg {
             ws::Message::Ping(msg) => {
-                ctx.pong(msg);
+                ctx.pong(&msg);
             }
             ws::Message::Pong(_msg) => {}
             ws::Message::Text(text) => ctx.text(text),

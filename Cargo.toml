@@ -4,15 +4,27 @@ version = "0.1.0"
 authors = ["Heinz Gies <hgies@wayfair.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "server"
+path = "src/main.rs"
+
+[[bin]]
+name = "client"
+path = "src/client.rs"
 
 [dependencies]
 actix = "0.8.3"
 actix-codec = "0.1.2"
-actix-web = { path = "../actix-web"} # "1.0.7"
-actix-web-actors = { path = "../actix-web/actix-web-actors" } #"1.0.2"
-actix-http = { path = "../actix-web/actix-http" } #"1.0.2"
-#awc = "0.2.4"
+actix-web = "1.0.7"
+actix-web-actors = { version = "1.0.2"}
+actix-http = { version = "0.2.9" }
+awc = "0.2.4"
 env_logger = "0.6"
 futures = "0.1"
 bytes = "0.4"
+
+[patch.crates-io]
+actix-web = { path = "../actix-web" }
+actix-web-actors = { path = "../actix-web/actix-web-actors" }
+actix-http = { path = "../actix-web/actix-http" }
+awc = { path = "../actix-web/awc" }
